@@ -1,0 +1,32 @@
+Getcookie 
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.*;
+import java.io.IOException;
+
+@WebServlet("/display-username")
+public class DisplayUsernameServlet extends HttpServlet {
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        response.setContentType("text/html");
+        response.getWriter().println("<html><body>");
+        response.getWriter().println("<h1>Display Username</h1>");
+
+        Cookie[] cookies = request.getCookies(); // Get all cookies from the request
+
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("username".equals(cookie.getName())) { // Check if the cookie with the name "username" exists
+                    String username = cookie.getValue(); // Get the value of the "username" cookie
+                    response.getWriter().println("Username from Cookie: " + username);
+                    break; // Stop searching after finding the "username" cookie
+                }
+            }
+        }
+
+        response.getWriter().println("</body></html>");
+    }
+}
